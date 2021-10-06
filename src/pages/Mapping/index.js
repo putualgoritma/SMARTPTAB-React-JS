@@ -1,4 +1,4 @@
-import React,{Fragment,useEffect,useState} from 'react'
+import React,{forwardRef, Fragment,useEffect,useState} from 'react'
 import {Header,Sidebar,Footer,Title,Spinner} from'../../component'
 import { MDBDataTable } from 'mdbreact';
 import  {Form}  from  'react-bootstrap' ;
@@ -28,11 +28,17 @@ const Mapping = ()=>{
   const [form, setForm] = useState({
     month :null,
     year : null,
-    operator : '',
+    operator :'s',
     nomorrekening : null
 })
 
 
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+  <button className="form-control" onClick={onClick} ref={ref} style={{textAlign:'left'}}>
+    
+    {value}
+  </button>
+   ));
 
   // const [startDate, setStartDate] =  useState(new Date());
 
@@ -91,6 +97,7 @@ setForm({...form, month: month, year:year },date)
                     setIntable(intable=result[0].data)
                     setOperat(operat=result[1].data)
                     console.log('data operat',operat)
+                    console.log('data operat',operat)
                     }).catch((e)=>{
                       console.log(e);
                       setLoading(false)
@@ -121,8 +128,10 @@ setForm({...form, month: month, year:year },date)
   }
 
   const handleAction = () =>{
-    if(form.operator == ''&& form.year == '' && form.month == ''){
-      alert('Data Operator/Periode tidak boleh kosong !')
+    if(form.operator == 's'){
+      alert('Data Operator tidak boleh kosong !')
+    }else if(form.month ==null){
+      alert('Data Periode tidak boleh kosong !')
     }else{
           setLoading(true)
           API.mapping(form,token).then((res) => {
@@ -136,6 +145,7 @@ setForm({...form, month: month, year:year },date)
     console.log(form) 
       }
     
+      
 
     return(
         <Fragment>
@@ -151,11 +161,11 @@ setForm({...form, month: month, year:year },date)
                       <Title
                           title="FOTO MAPPING (OPERATOR)"
                         />
-                        <div className="row mid">
+                        {/* <div className="row mid">
                             <div className="col-md-1">
                               <label className="form-label">Operator</label>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3"> */}
                               {/* <Autocomplete
                               id="combo-box-demo"
                               options={operator}
@@ -163,20 +173,31 @@ setForm({...form, month: month, year:year },date)
                               style={{}}
                               renderInput={(params) => <TextField {...params} label="OPERATOR" variant="outlined" />}
                               /> */}
-                              <input className="form-control" list="datalistOptions" id="exampleDataList" placeholder="Pilih Operator" value ={form.operator} onChange={e => setForm({...form, operator: e.target.value })} />
+
+                              {/* <input className="form-control" list="datalistOptions" id="exampleDataList" placeholder={"Pilih Operator"} selected={form.operator} onChange={e => setForm({...form, operator: e.target.value })} />
                                 <datalist id="datalistOptions">
                                 {operat.map((item, index) => (  
                                     <option value={item.Name}>{item.Name}</option>
                                   ))   }
-                                  </datalist>
+                                  </datalist> */}
+
+                                  {/* <select class="form-control " data-live-search="true"  placeholder={"Pilih Operator"} onChange={e => setForm({...form, operator: e.target.value })}>
+                                        {operat.map((item, index) => (  
+                                          <option value={item.Name}>{item.Name}</option>
+                                        ))   }
+                                  </select>
+                                  
                             </div>
-                        </div>
+                        </div> */}
+                      
+
+
                      
-                        <div className="row mid distance">
+                        {/* <div className="row mid distance">
                             <div className="col-md-1">
                                 <label className="form-label">Periode</label>
                             </div>
-                            <div className="col-md-3">
+                            <div className="col-md-3"> */}
 {/*                             
                             <form onSubmit={onFormSubmit}>
                             <div className="form-group">
@@ -189,14 +210,15 @@ setForm({...form, month: month, year:year },date)
                               />
                             </div>    
                             </form> */}
-                            
-                            <DatePicker
-                              selected={startDate}
-                              onChange={(date) => handleDate(date)}
-                              dateFormat="MM/yyyy"
-                              showMonthYearPicker
-                            />
-                            
+                        
+                              {/* <DatePicker
+                                selected={startDate}
+                                onChange={(date) => handleDate(date)}
+                                dateFormat="MM/yyyy"
+                                showMonthYearPicker
+                                customInput={<ExampleCustomInput />}
+                              /> */}
+                         
                             {/* <Form.Group controlId="dob">
                                 <Form.Label>Select Date</Form.Label>
                                 <Form.Control  type="date" name="dob" placeholder="Pilih Periode"  onChange={e => handleDate(e.target.value)} />
@@ -212,6 +234,36 @@ setForm({...form, month: month, year:year },date)
                                     >
                                 </DatePickerComponent>
                                */}
+                            {/* </div>
+                        </div> */}
+                        <div className="row mid distance">
+                            <div className="col-md-1">
+                              <label className="form-label">Operator</label>
+                            </div>
+                            <div className="col-md-3">
+                            <select class="form-control " data-live-search="true" value={form.operator} placeholder="Pilih Operator" onChange={e => setForm({...form, operator: e.target.value })}>
+                                      { (form.operator == 's') &&
+                                        <option value=''> --Pilih Operator-- </option>
+                                      }
+                                        {operat.map((item, index) => (  
+                                          <option value={item.Name}>{item.Name}</option>
+                                        ))   }
+                                  </select>
+                            </div>
+                        </div>
+                        <div className="row mid distance">
+                            <div className="col-md-1">
+                              <label className="form-label">Periode</label>
+                            </div>
+                            <div className="col-md-3">
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => handleDate(date)}
+                                dateFormat="MM/yyyy"
+                                showMonthYearPicker
+                                customInput={<ExampleCustomInput />
+                                }
+                              />
                             </div>
                         </div>
                         <div className="row mid distance">
@@ -252,11 +304,14 @@ setForm({...form, month: month, year:year },date)
                                               <td className="table-text">{intab.operator}</td>
                                               <td className="table-text">{intab.tanggal}</td>
                                               <td className="table-text">{intab.infowaktu}</td>
-                                              <td className="table-text">{intab.nomorrekening}/{intab.namapelanggan}/{intab.idgol}/{intab.idareal}</td>
+                                              <td className="table-text">
+                                                {intab.nomorrekening}/{intab.namapelanggan}/{intab.idgol}/{intab.idareal}
+                                              </td>
                                               <td className="table-text">{intab.pemakaianair}</td>
                                               {/* <td>{intab.filegambar}</td> */}
                                               <td>
-                                                  <img src= {(intab.filegambar == null ? 'Tidak ada Foto' :( process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar).replace('public/', '')))} alt="alt" style={{width:200, height:'30%'}}/>
+                                                <a href={(process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar))} className="fancybox" data-fancybox="gallery1">
+                                                  <img src= {(intab.filegambar == null ? 'Tidak ada Foto' :( process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar).replace('public/', '')))} alt="alt" style={{width:200, height:'30%'}}/></a>
                                               </td>
                                           </tr>
                                            ))   }

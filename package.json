@@ -1,6 +1,7 @@
 {
   "name": "simpeltab",
   "version": "0.1.0",
+  "homepage": "http://smartptab.ptab-vps.com/",
   "private": true,
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
@@ -52,7 +53,7 @@
   "browserslist": {
     "production": [
       ">0.2%",
-      "not dead",
+      "not ie <= 11",
       "not op_mini all"
     ],
     "development": [
