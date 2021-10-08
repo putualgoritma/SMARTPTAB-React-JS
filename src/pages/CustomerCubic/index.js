@@ -1,90 +1,150 @@
-import React,{Fragment} from 'react'
-import {Header,Sidebar,Footer,Title} from'../../component'
-import { MDBDataTable } from 'mdbreact';
+import React, {forwardRef,Fragment, useEffect,useState } from 'react';
 import { Bar } from 'react-chartjs-2';
-import { DatePickerComponent } from '@syncfusion/ej2-react-calendars'
-import TextField from '@material-ui/core/TextField';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-const unit = [
-  {title: 'UNIT 1'},
-  {title: 'UNIT 2'},
-  {title: 'UNIT 3'},
-  {title: 'UNIT 4'},
-  {title: 'UNIT 5'},
-];
+import { Footer, Header, Sidebar,Title,Spinner} from '../../component';
+import API from '../../services';
+import {useHistory} from 'react-router-dom'
+import DatePicker from 'react-datepicker';
+
+
 const CustomerCubic = () =>{
-    const [datatable, setDatatable] = React.useState({
-        columns: [
-          {
-            label: 'No',
-            field: 'no',
-            width: 150,
-            sort: 'disabled',
-            attributes: {
-              'aria-controls': 'DataTable',
-              'aria-label': 'No',
-            },
-          },
-          {
-            label: 'GOLONGAN TARIF',
-            field: 'golongan',
-            sort: 'disabled',
-            width: 270,
-          },
-          {
-            label: 'JUMLAH LEMBAR',
-            field: 'jumlah',
-            sort: 'disabled',
-            width: 200,
-          },
-          {
-            label: 'TOTAL M3',
-            field: 'total',
-            sort: 'disabled',
-            width: 100,
-          },
-          {
-            label: 'RATA RATA M3',
-            field: 'rata',
-            sort: 'disabled',
-            width: 150,
-          },
-        ],
-        rows: [
-          {
-            no: '1',
-            golongan: 'B-SOSIAL KHUSUS',
-            jumlah: '190',
-            total: '3.724',
-            rata: '19.60',
-          },
-        ],
-      });
-      const widerData = {
-        columns: [
-          ...datatable.columns.map((col) => {
-            col.width = 200;
-            return col;
-          }),
-        ],
-        rows: [...datatable.rows],
-      };
-      
+
+  const [TOKEN, setTOKEN] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const history = useHistory()
+  const [form, setForm] = useState({
+    month : 9,
+    year : 2021,
+    areal : 1,
+  })
+  const [customer, setCustomer] = useState([]);
+  const [kubikasi, setKubikasi] = useState([]);
+  const [sr,setSR] = useState([]);
+  const [startDate, setStartDate] = useState(new Date());
+
+  var [unit,setUnit] = useState([]);
+  var [intable, setIntable] = useState([]);
+  var no=1;
+
+  const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+    <button className="form-control" onClick={onClick} ref={ref} style={{textAlign:'left'}}>
+      {value}
+    </button>
+     ));
+  
+  const handleDate =(str)=>{
+    let date = new Date(str)
+    let month = date.getMonth() + 1
+    let year = date.getFullYear() 
+    setStartDate((date))
+    setForm({...form, month: month, year:year },date)
+  }
+
+  useEffect(async()=>{
+    let token = await getTOKEN();
+    if(token == null){   alert('mohon login terlebih dahulu')
+      history.push(`/login`)
+    }else if(token !==null){
+      Promise.all([API.kubikasi(form, token),API.arealGroup(token)]).then(res => {
+      console.log('hasil', res);
+      for (var i = 0; i < res[0].data.length; i++){
+        setCustomer((customer)=>[
+          ...customer,
+          customer = res[0].data[i].jenispelanggan,
+        ]);
+        setKubikasi((kubikasi)=>[
+          ...kubikasi,
+          kubikasi = res[0].data[i].kubikasi,
+        ]);
+        setSR((sr)=>[
+          ...sr,
+          sr = res[0].data[i].lembar,
+        ]);
+      }
+      setIntable(intable=res[0].data)
+      setUnit(unit=res[1].data)
+    }).catch((e) => {
+      console.log('error',e);
+    }).finally((f) => setLoading(false))
+}}, [])
+
+
+const getTOKEN =  () => {
+  let data =  sessionStorage.getItem('TOKEN')
+  data = JSON.parse(data)
+  setTOKEN( data)
+  return data;
+  
+  }
+
+  const handleAction = () =>{
+    if(form.month == ''){
+      alert('Data Periode tidak boleh kosong !')
+    }else if(form.unit ==null){
+      alert('Data Nama Wilayah tidak boleh kosong !')
+    }else{
+          setLoading(true)
+          API.kubikasi(form,TOKEN).then((res) => {
+            console.log('new',res);
+            setLoading(false)
+            console.log('ress',res.data)
+            // setForm(form)
+            setIntable(intable=res.data)
+          }).catch(e => console.log(e))
+        }
+    console.log(form) 
+      }
+
+
       const data = {
-        labels: ['','','','',],
+        labels: customer,
         datasets: [
             {
                 label:"",
-                data:[10,4,5,7],
+                data:kubikasi,
                 backgroundColor:[
-                '#FAFF00',
-                '#F00000',
-                '#F00000',
-                '#23EC1E',
+                  '#F00000',
+                  '#FAFF00',
+                  '#23EC1E',
+                  '#F00000',
+                  '#FAFF00',
+                  '#FAFF00',
+                  '#23EC1E',
+                  '#23EC1E',
+                  '#FAFF00',
+                  '#FAFF00',
+                  '#23EC1E',
+                  '#FAFF00',
+                  '#F00000',
+                  '#FAFF00',
             ]
             }
         ]
     }
+    const data1 = {
+      labels: customer,
+      datasets: [
+          {
+              label:"",
+              data:sr,
+              backgroundColor:[
+                '#F00000',
+                '#FAFF00',
+                '#23EC1E',
+                '#F00000',
+                '#FAFF00',
+                '#FAFF00',
+                '#23EC1E',
+                '#23EC1E',
+                '#FAFF00',
+                '#FAFF00',
+                '#23EC1E',
+                '#FAFF00',
+                '#F00000',
+                '#FAFF00',
+          ]
+          }
+      ]
+  }
     const options = {
         scales: {
           yAxes: [
@@ -96,6 +156,12 @@ const CustomerCubic = () =>{
           ],
         },
       };    
+
+      if(loading){
+        return (
+              <Spinner/>
+        )
+    }
     return(
         <Fragment>
             <div className="wrapper">
@@ -110,8 +176,45 @@ const CustomerCubic = () =>{
                     <Title
                         title="REKAP PEMAKAIAN AIR PELANGGAN BERDASARKAN WILAYAH"
                     />
+                    <div className="row mid distance">
+                          <div className="col-md-1">
+                            <label className="form-label">Unit</label>
+                          </div>
+                          <div className="col-md-3">
+                            <select class="form-control " data-live-search="true" value={form.operator} placeholder="Pilih Unit" onChange={e => setForm({...form, unit: e.target.value })}>
+                                <option value=''> --Pilih Unit-- </option>
+                                {unit.map((item, index) => (  
+                                    <option value={item.group_unit}>{item.namawilayah}</option>
+                                  ))   }
+                            </select>
+                          </div>
+                      </div> 
+                      <div className="row mid distance">
+                            <div className="col-md-1">
+                              <label className="form-label">Periode</label>
+                            </div>
+                            <div className="col-md-3">
+                            <DatePicker
+                                selected={startDate}
+                                onChange={(date) => handleDate(date)}
+                                dateFormat="MM/yyyy"
+                                showMonthYearPicker
+                                customInput={<ExampleCustomInput />
+                                }
+                              />
+                            </div>
+                      </div>
+                      <div className="row mid distance">
+                            <div className="col-md-1">
+                              <label className="form-label" >Filter</label>
+                            </div>
+                            <div className="col-md-3">
+                                <button className="btn btn-primary" onClick={()=>handleAction()} >Filter</button>
+                            </div>
+                        </div>
+                      <div className="row mid distance"> </div>
                       <div className="row">
-                              <div className="col-md-6">
+                              <div className="col-md-12">
                                   <div className="card">
                                       <div className="card-header">
                                           <div className="card-title-edit">Diagram Kubikasi</div>
@@ -123,7 +226,7 @@ const CustomerCubic = () =>{
                                       </div>
                                   </div>
                               </div>
-                              <div className="col-md-6">
+                              <div className="col-md-12 ">
                                   <div className="card">
                                       <div className="card-header">
                                           <div className="card-title-edit">Diagram Jumlah SR</div>
@@ -131,37 +234,46 @@ const CustomerCubic = () =>{
                                       <div className="card-body">
                                           <div className='header'>
                                           </div>
-                                              <Bar data={data} options={options}/>
+                                              <Bar data={data1} options={options}/>
                                       </div>
                                   </div>
                               </div>
                           </div>
-                          <div className="row mid distance">
-                            <div className="col-md-1">
-                              <label className="form-label">PERIODE</label>
-                            </div>
-                            <div className="col-md-3">
-                                <DatePickerComponent placeholder="Pilih Periode"
-                                format="MMM-yyyy"
-                                start="Year"
-                                depth="Year"></DatePickerComponent>
-                            </div>
+                          
+                          {/* //form control */}
+                    <div class="col-md-12">
+                      <div class="card strpied-tabled-with-hover">
+                          <div class="card-header ">
+                              <h4 class="card-title">Tabel Rekap Pemakaian Air Pelanggan Berdasarkan Wilayah</h4>
                           </div>
-                          <div className="row mid distance">
-                            <div className="col-md-1">
-                              <label className="form-label">UNIT</label>
-                            </div>
-                            <div className="col-md-3">
-                              <Autocomplete
-                                id="combo-box-demo"
-                                options={unit}
-                                getOptionLabel={(option) => option.title}
-                                style={{}}
-                                renderInput={(params) => <TextField {...params} label="UNIT" variant="outlined" />}
-                                />
-                            </div>
+                          <div class="card-body table-full-width table-responsive">
+                              <div className="col-lg-12">
+                                  <table  className="table table-bordered"> 
+                                  <tr>
+                                    <th rowspan="2">No</th>
+                                    <th rowspan="2">GOLONGAN TARIF</th>
+                                    <th rowspan="2">JML.LEMBAR</th>
+                                    <th colspan="2" className="text-center">PEMAKAIAN AIR(M3)</th>
+                                  
+                                </tr>
+                                <tr>
+                                    <th colspan="1" class="text-center">TOTAL M3</th>
+                                    <th colspan="1" class="text-center">RATA-RATA M3</th>
+                                </tr>
+                                {intable.map((intab, index) => (
+                                  <tr>
+                                      <td>{no++}</td>
+                                      <td>{intab.jenispelanggan}</td>
+                                      <td>{intab.lembar}</td>
+                                      <td>{intab.avg}</td>
+                                      <td>{intab.kubikasi}</td>
+                                  </tr>
+                                ))}  
+                                  </table>
+                              </div>  
                           </div>
-                        <MDBDataTable hover scrollX data={widerData} />
+                        </div>
+                    </div>   
                     </div>
                     
                     <Footer/>

@@ -13,12 +13,16 @@ import {
     PaymentCustomer,
     WaterSale,
     Personalia,
-    Login
+    Login,
+    MappingSBG
 } from '../../pages';
 const MainApp = () =>{
     return(
         <Router>
             <Switch>
+                <Route path ="/MappingSBG">
+                    <MappingSBG/>
+                </Route>
                 <Route path ="/Dashboard">
                     <Dashboard/>
                 </Route>
