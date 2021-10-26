@@ -42,7 +42,15 @@ const Sidebar = (props) => {
                 <li className={props.active === 'Mapping' ? "nav-item active" : ''}>
                   <a className="nav-link" href="./Mapping">
                   <i className="nc-icon"><FontAwesomeIcon icon={faMapMarkerAlt} style={{color:'#FFFFFFF', width:25, height:25}}/></i>
-                    <p>MAPPING</p>
+                    <p>MAPPING OPERATOR</p>
+                  </a>
+                </li>
+              </li>
+              <li>
+                <li className={props.active === 'MappingSBG' ? "nav-item active" : ''}>
+                  <a className="nav-link" href="./MappingSBG">
+                  <i className="nc-icon"><FontAwesomeIcon icon={faMapMarkerAlt} style={{color:'#FFFFFFF', width:25, height:25}}/></i>
+                    <p>MAPPING SBG</p>
                   </a>
                 </li>
               </li>

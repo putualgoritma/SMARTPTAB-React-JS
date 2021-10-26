@@ -12,6 +12,7 @@ import PaymentCustomer from './PaymentCustomer'
 import WaterSale from './WaterSale'
 import Personalia from './Personalia'
 import Login from './Login'
+import MappingSBG from './MappingSBG'
 
 export {
     MainApp,
@@ -27,5 +28,6 @@ export {
     PaymentCustomer,
     WaterSale,
     Personalia,
-    Login
+    Login,
+    MappingSBG
 }

@@ -39,6 +39,8 @@ const Login = ()=>{
                 history.push("/Dashboard");
               }else{ 
                 alert('data tidak ditemukan')
+                setLoading(false)
+                history.push("/Login");
               }   
           }).catch((e) => {
                 console.log(e.request);

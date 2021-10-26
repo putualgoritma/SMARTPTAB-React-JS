@@ -9,18 +9,15 @@ import { Footer, Header, Sidebar, Spinner, Title } from '../../component';
 import API from '../../services';
 
 
-const Mapping = ()=>{
+const MappingSBG = ()=>{
 
   const [TOKEN, setTOKEN] = useState(null);
   const [loading, setLoading] = useState(true);
   const history = useHistory()
   var [intable, setIntable] = useState([]);
-  var [operat, setOperat] = useState([]);
   const [token,setToken] = useState(null);
   const [form, setForm] = useState({
-    month :null,
     year : null,
-    operator :'s',
     nomorrekening : null
 })
   const [columnsTable, setColumnstable] = useState([
@@ -76,10 +73,9 @@ const Mapping = ()=>{
   const [startDate, setStartDate] = useState(new Date());
     const handleDate =(str)=>{
     let date = new Date(str)
-    let month = date.getMonth() + 1
     let year = date.getFullYear() 
     setStartDate((date))
-    setForm({...form, month: month, year:year },date)
+    setForm({...form, year:year },date)
 }
 
 const [widerData, setWiderData] = useState()
@@ -89,9 +85,8 @@ const [widerData, setWiderData] = useState()
     if(token == null){   alert('mohon login terlebih dahulu')
       history.push(`/login`)
     }else if(token !==null){
-    Promise.all([API.mapping(form, token),API.operator(token)]).then(res => {
+    Promise.all([API.mapping(form, token)]).then(res => {
       console.log('operator', res);
-      setOperat(res[1].data)
       res[0].data.map((intab, no) => {
         setIntable(intable[no]={
             no:no++,
@@ -125,10 +120,10 @@ const [widerData, setWiderData] = useState()
     
    
   const handleAction = () =>{
-    if(form.operator == 's'){
-      alert('Data Operator tidak boleh kosong !')
-    }else if(form.month ==null){
+    if(form.year == null){
       alert('Data Periode tidak boleh kosong !')
+    }else if(form.nomorrekening ==null){
+      alert('Data No SBG tidak boleh kosong !')
     }else{
           setLoading(true)
           API.mapping(form,TOKEN).then((res) => {
@@ -170,7 +165,7 @@ const [widerData, setWiderData] = useState()
         <Fragment>
             <div className="wrapper">
                 <Sidebar
-                   active="Mapping"
+                   active="MappingSBG"
                 />
                 <div className="main-panel">
                     <Header
@@ -180,20 +175,7 @@ const [widerData, setWiderData] = useState()
                       <Title
                           title="FOTO MAPPING (SBG)"
                         />
-                        <div className="row mid distance">
-                            <div className="col-md-1">
-                              <label className="form-label">Operator</label>
-                            </div>
-                            <div className="col-md-3">
-                            <select class="form-control " data-live-search="true" value={form.operator} placeholder="Pilih Operator" onChange={e => setForm({...form, operator: e.target.value })}>
-                                    
-                                        <option value=''> --Pilih Operator-- </option>
-                                        {operat.map((item, index) => (  
-                                          <option value={item.Name}>{item.Name}</option>
-                                        ))   }
-                                  </select>
-                            </div>
-                        </div>
+                       
                         <div className="row mid distance">
                             <div className="col-md-1">
                               <label className="form-label">Periode</label>
@@ -202,8 +184,8 @@ const [widerData, setWiderData] = useState()
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => handleDate(date)}
-                                dateFormat="MM/yyyy"
-                                showMonthYearPicker
+                                showYearPicker
+                                dateFormat="yyyy"
                                 customInput={<ExampleCustomInput />
                                 }
                               />
@@ -235,4 +217,4 @@ const [widerData, setWiderData] = useState()
         </Fragment>
     )
 }
-export default Mapping
+export default MappingSBG
