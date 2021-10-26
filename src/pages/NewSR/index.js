@@ -18,6 +18,8 @@ const NewSR = ()=>{
   var [intable, setIntable] = useState([]);
   var no=1;
 
+  var [colors,setColors]=useState([]);
+
   useEffect(()=>{
     let isAmounted = false
     if(!isAmounted) { 
@@ -38,6 +40,10 @@ const NewSR = ()=>{
                       setTotal((total)=>[
                         ...total,
                         total = result[0].data[i].total,
+                      ]);
+                      setColors((colors)=>[
+                        ...colors,
+                        colors = "#"+((1<<24)*Math.random()|0).toString(16)
                       ]);
                       setIntable(intable=result[0].data)
                       // console.log('hasil bulan',result[0].data[i].bulan)

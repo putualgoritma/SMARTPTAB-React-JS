@@ -1,12 +1,12 @@
 import React, { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen, faCheckDouble, faCreditCard, faHome, faLayerGroup, faMapMarkerAlt, faMoneyBill, faMoneyBillWaveAlt, faNewspaper, faTachometerAlt, faTags, faUsersCog, faWater } from '@fortawesome/free-solid-svg-icons'
-import {background} from '../../assets';
+import {background,ImageSidebar} from '../../assets';
 const Sidebar = (props) => {
   return (
     <Fragment>
       <div className="sidebar none" data-color="blue" data-image>
-      <img src={background} style={{position:'absolute', width:'100%', height:'100%'}}/>
+      <img src={ImageSidebar} style={{position:'absolute', width:'100%', height:'100%'}}/>
           <div className="sidebar-wrapper">
             <div className="logo">
               <div className="simple-text">
@@ -16,7 +16,7 @@ const Sidebar = (props) => {
             <ul className="nav">
               <li>
                 <li className={props.active === 'Dashboard' ? "nav-item active" : ''}>
-                  <a className="nav-link" href='/'>
+                  <a className="nav-link" href='/Dashboard'>
                     <i className="nc-icon"><FontAwesomeIcon icon={faTachometerAlt} style={{color:'#FFFFFFF', width:25, height:25}}/></i>
                     <p>Dashboard</p>
                   </a>
