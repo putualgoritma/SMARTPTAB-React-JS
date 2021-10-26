@@ -5297,5 +5297,14 @@ font icons
 .nc-zoom-split::before {
   content: "\ea64";
 }
+.warna{
+  background-color:  #007bff;
+  opacity: 0.9;
+  border-radius: 10px;
+  border: 3px solid  #00008B;
+}
+.warna:hover{
+  background-color: red;
+}
 
 /* all icon font classes list here */

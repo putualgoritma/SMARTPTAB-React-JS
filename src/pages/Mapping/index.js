@@ -16,9 +16,10 @@ const Mapping = ()=>{
   const history = useHistory()
   var [intable, setIntable] = useState([]);
   var [operat, setOperat] = useState([]);
+  var number=1;
   const [token,setToken] = useState(null);
   const [form, setForm] = useState({
-    month :null,
+    month :'--Pilih Periode--',
     year : null,
     operator :'s',
     nomorrekening : null
@@ -64,7 +65,7 @@ const Mapping = ()=>{
         label :'FOTO',
         field :'foto',
         sort : 'disabled',
-        width : 180
+        width : 220
     },
 ])
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
@@ -73,14 +74,14 @@ const Mapping = ()=>{
   </button>
    ));
 
-  const [startDate, setStartDate] = useState(new Date());
-    const handleDate =(str)=>{
+  const [startDate, setStartDate] = useState(null);
+  const handleDate =(str)=>{
     let date = new Date(str)
     let month = date.getMonth() + 1
     let year = date.getFullYear() 
     setStartDate((date))
     setForm({...form, month: month, year:year },date)
-}
+  }
 
 const [widerData, setWiderData] = useState()
 
@@ -89,26 +90,27 @@ const [widerData, setWiderData] = useState()
     if(token == null){   alert('mohon login terlebih dahulu')
       history.push(`/login`)
     }else if(token !==null){
-    Promise.all([API.mapping(form, token),API.operator(token)]).then(res => {
+    // Promise.all([API.mapping(form, token),API.operator(token)]).then(res => {
+      Promise.all([API.operator(token)]).then(res => {
       console.log('operator', res);
-      setOperat(res[1].data)
-      res[0].data.map((intab, no) => {
-        setIntable(intable[no]={
-            no:no++,
-            operator:intab.operator,
-            periode:intab.tanggal,
-            tanggal:intab.infowaktu,
-            sbg:intab.nomorrekening +'/'+ intab.namapelanggan +'/'+ intab.idgol,
-            meter:intab.pemakaianair,
-            foto:  <a href={(process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar))} className="fancybox" data-fancybox="gallery1">
-            <img src= {(intab.filegambar == null ? 'Tidak ada Foto' :( process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar).replace('public/', '')))} alt="alt" style={{width:200, height:'30%'}}/></a>
-          })
-      })
-      console.log('intable',intable);
-      setWiderData({
-        columns: columnsTable,
-        rows:  intable,
-      })
+      setOperat(res[0].data)
+      // res[0].data.map((intab, no) => {
+      //   setIntable(intable[no]={
+      //       no:number++,
+      //       operator:intab.operator,
+      //       periode:intab.tanggal,
+      //       tanggal:intab.infowaktu,
+      //       sbg:intab.nomorrekening +'/'+ intab.namapelanggan +'/'+ intab.idgol,
+      //       meter:intab.pemakaianair,
+      //       foto:  <a href={(process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar))} className="fancybox" data-fancybox="gallery1">
+      //       <img src= {(intab.filegambar == null ? 'Tidak ada Foto' :( process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar).replace('public/', '')))} alt="alt" style={{width:200, height:'30%'}}/></a>
+      //     })
+      // })
+      // console.log('intable',intable);
+      // setWiderData({
+      //   columns: columnsTable,
+      //   rows:  intable,
+      // })
     }).catch((e) => {
       console.log('eror',e);
     }).finally((f) => setLoading(false))
@@ -127,7 +129,7 @@ const [widerData, setWiderData] = useState()
   const handleAction = () =>{
     if(form.operator == 's'){
       alert('Data Operator tidak boleh kosong !')
-    }else if(form.month ==null){
+    }else if(form.year ==null){
       alert('Data Periode tidak boleh kosong !')
     }else{
           setLoading(true)
@@ -138,12 +140,12 @@ const [widerData, setWiderData] = useState()
             intable=[]
             res.data.map((intab, no) => {
               setIntable(intable[no]={
-                  no:no++,
+                  no:number++,
                   operator:intab.operator,
                   periode:intab.tanggal,
                   tanggal:intab.infowaktu,
-                  sbg:intab.nomorrekening,
-                  meter:intab.pemakaianair +' ' + intab.nomorrekening,
+                  sbg:intab.nomorrekening +'/'+ intab.namapelanggan +'/'+ intab.idgol,
+                  meter:intab.pemakaianair,
                   foto:  <a href={(process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar))} className="fancybox" data-fancybox="gallery1">
                   <img src= {(intab.filegambar == null ? 'Tidak ada Foto' :( process.env.REACT_APP_IMAGE_URL  + String(intab.filegambar).replace('public/', '')))} alt="alt" style={{width:200, height:'30%'}}/></a>
                 })
@@ -186,8 +188,9 @@ const [widerData, setWiderData] = useState()
                             </div>
                             <div className="col-md-3">
                             <select class="form-control " data-live-search="true" value={form.operator} placeholder="Pilih Operator" onChange={e => setForm({...form, operator: e.target.value })}>
-                                    
-                                        <option value=''> --Pilih Operator-- </option>
+                                        {form.operator =='s' && 
+                                        <option value='s'> --Pilih Operator-- </option>
+                                      }
                                         {operat.map((item, index) => (  
                                           <option value={item.Name}>{item.Name}</option>
                                         ))   }
@@ -204,6 +207,8 @@ const [widerData, setWiderData] = useState()
                                 onChange={(date) => handleDate(date)}
                                 dateFormat="MM/yyyy"
                                 showMonthYearPicker
+                                value={form.month}
+                                // placeholderText='--Pilih Periode--'
                                 customInput={<ExampleCustomInput />
                                 }
                               />
@@ -214,7 +219,7 @@ const [widerData, setWiderData] = useState()
                               <label className="form-label">NO.SBG</label>
                             </div>
                             <div className="col-md-3">
-                            <Form.Control type="text"  onChange={e => setForm({...form, nomorrekening: e.target.value })}  value={form.nomorrekening}/>
+                            <Form.Control type="text" placeholder='Masukan No SBG' onChange={e => setForm({...form, nomorrekening: e.target.value })}  value={form.nomorrekening}/>
                             </div>
                         </div>
 

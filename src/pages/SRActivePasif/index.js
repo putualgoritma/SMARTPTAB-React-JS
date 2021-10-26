@@ -31,6 +31,7 @@ const options = {
   var [wilayah, setWilayah] = useState([]);
   var [totalaktif, setTotalAktif] = useState([]);
   var [totalpasif, setTotalPasif] = useState([]);
+  
 
   // Diagram Donut
   var [totalA, setTotalA] = useState(0);
@@ -74,8 +75,10 @@ const options = {
                       ]);
                       setTotalA(totalA += parseInt(result[0].data[i].totalaktif))
                       setTotalP(totalP += parseInt(result[0].data[i].totalpasif))
+                    
                     }
                     setIntable(intable=result[0].data)
+                 
                     // console.log('totalaktif',result )
                     setLoading(false) 
                   }).catch((e)=>{

@@ -12,14 +12,14 @@ const CustomerCubic = () =>{
   const [loading, setLoading] = useState(true);
   const history = useHistory()
   const [form, setForm] = useState({
-    month : 9,
-    year : 2021,
-    areal : 1,
+    month : '--Pilih Periode--',
+    year : null,
+    areal : '',
   })
   const [customer, setCustomer] = useState([]);
   const [kubikasi, setKubikasi] = useState([]);
   const [sr,setSR] = useState([]);
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(null);
 
   var [unit,setUnit] = useState([]);
   var [intable, setIntable] = useState([]);
@@ -44,24 +44,25 @@ const CustomerCubic = () =>{
     if(token == null){   alert('mohon login terlebih dahulu')
       history.push(`/login`)
     }else if(token !==null){
-      Promise.all([API.kubikasi(form, token),API.arealGroup(token)]).then(res => {
-      console.log('hasil', res);
-      for (var i = 0; i < res[0].data.length; i++){
-        setCustomer((customer)=>[
-          ...customer,
-          customer = res[0].data[i].jenispelanggan,
-        ]);
-        setKubikasi((kubikasi)=>[
-          ...kubikasi,
-          kubikasi = res[0].data[i].kubikasi,
-        ]);
-        setSR((sr)=>[
-          ...sr,
-          sr = res[0].data[i].lembar,
-        ]);
-      }
-      setIntable(intable=res[0].data)
-      setUnit(unit=res[1].data)
+      // Promise.all([API.kubikasi(form, token),API.arealGroup(token)]).then(res => {
+      Promise.all([API.arealGroup(token)]).then(res => {
+      // console.log('hasil', res);
+      // for (var i = 0; i < res[0].data.length; i++){
+      //   setCustomer((customer)=>[
+      //     ...customer,
+      //     customer = res[0].data[i].jenispelanggan,
+      //   ]);
+      //   setKubikasi((kubikasi)=>[
+      //     ...kubikasi,
+      //     kubikasi = res[0].data[i].kubikasi,
+      //   ]);
+      //   setSR((sr)=>[
+      //     ...sr,
+      //     sr = res[0].data[i].lembar,
+      //   ]);
+      // }
+      // setIntable(intable=res[0].data)
+      setUnit(unit=res[0].data)
     }).catch((e) => {
       console.log('error',e);
     }).finally((f) => setLoading(false))
@@ -77,17 +78,34 @@ const getTOKEN =  () => {
   }
 
   const handleAction = () =>{
-    if(form.month == ''){
+  if(form.areal == ''){
+    alert('Data Nama Wilayah tidak boleh kosong !')
+  }else if(form.year == null){
       alert('Data Periode tidak boleh kosong !')
-    }else if(form.unit ==null){
-      alert('Data Nama Wilayah tidak boleh kosong !')
     }else{
           setLoading(true)
           API.kubikasi(form,TOKEN).then((res) => {
             console.log('new',res);
             setLoading(false)
             console.log('ress',res.data)
-            // setForm(form)
+            setForm(form)
+            setKubikasi([])
+            setSR([])
+            for (var i = 0; i < res.data.length; i++){
+              setCustomer((customer)=>[
+                    ...customer,
+                    customer = res.data[i].jenispelanggan,
+                  ]);
+              setKubikasi((kubikasi)=>[
+                ...kubikasi,
+                kubikasi = res.data[i].kubikasi,
+              ]);
+              setSR((sr)=>[
+                ...sr,
+                sr = res.data[i].lembar,
+              ]);
+            }
+            console.log('kubi',kubikasi)
             setIntable(intable=res.data)
           }).catch(e => console.log(e))
         }
@@ -181,8 +199,10 @@ const getTOKEN =  () => {
                             <label className="form-label">Unit</label>
                           </div>
                           <div className="col-md-3">
-                            <select class="form-control " data-live-search="true" value={form.operator} placeholder="Pilih Unit" onChange={e => setForm({...form, unit: e.target.value })}>
+                            <select class="form-control " data-live-search="true" value={form.areal} placeholder="Pilih Unit" onChange={e => setForm({...form, areal: e.target.value })}>
+                            {form.areal =='' && 
                                 <option value=''> --Pilih Unit-- </option>
+                              }
                                 {unit.map((item, index) => (  
                                     <option value={item.group_unit}>{item.namawilayah}</option>
                                   ))   }
@@ -199,6 +219,7 @@ const getTOKEN =  () => {
                                 onChange={(date) => handleDate(date)}
                                 dateFormat="MM/yyyy"
                                 showMonthYearPicker
+                                value={form.month}
                                 customInput={<ExampleCustomInput />
                                 }
                               />
@@ -213,6 +234,7 @@ const getTOKEN =  () => {
                             </div>
                         </div>
                       <div className="row mid distance"> </div>
+            
                       <div className="row">
                               <div className="col-md-12">
                                   <div className="card">
@@ -239,8 +261,10 @@ const getTOKEN =  () => {
                                   </div>
                               </div>
                           </div>
+                
                           
                           {/* //form control */}
+                
                     <div class="col-md-12">
                       <div class="card strpied-tabled-with-hover">
                           <div class="card-header ">
@@ -265,15 +289,16 @@ const getTOKEN =  () => {
                                       <td>{no++}</td>
                                       <td>{intab.jenispelanggan}</td>
                                       <td>{intab.lembar}</td>
-                                      <td>{intab.avg}</td>
                                       <td>{intab.kubikasi}</td>
+                                      <td>{intab.avg}</td>
                                   </tr>
                                 ))}  
                                   </table>
                               </div>  
                           </div>
                         </div>
-                    </div>   
+                    </div>  
+                
                     </div>
                     
                     <Footer/>
