@@ -10,7 +10,7 @@ const Dashboard = () =>{
                 />
                 <div className="main-panel">
                 <Header
-                    Title="SR AKTIF & PASIF"
+                    Title="DASHBOARD    "
                 />
                     <div className="content" style={{backgroundColor:'#D5F3FE'}}>
                       <img src={ImageDashboard} style={{width:'100%', height:'100%'}}/>

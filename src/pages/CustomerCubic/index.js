@@ -25,6 +25,17 @@ const CustomerCubic = () =>{
   var [intable, setIntable] = useState([]);
   var no=1;
 
+  var [colors,setColors]=useState([]);
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split(''),
+        colors = '#';
+    for (var i = 0; i < 6; ++i) {
+        colors += letters[Math.round(Math.random() * 15)];
+    }
+    return colors;
+  }
+
   const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
     <button className="form-control" onClick={onClick} ref={ref} style={{textAlign:'left'}}>
       {value}
@@ -78,9 +89,7 @@ const getTOKEN =  () => {
   }
 
   const handleAction = () =>{
-  if(form.areal == ''){
-    alert('Data Nama Wilayah tidak boleh kosong !')
-  }else if(form.year == null){
+   if(form.year == null){
       alert('Data Periode tidak boleh kosong !')
     }else{
           setLoading(true)
@@ -94,7 +103,7 @@ const getTOKEN =  () => {
             for (var i = 0; i < res.data.length; i++){
               setCustomer((customer)=>[
                     ...customer,
-                    customer = res.data[i].jenispelanggan,
+                    customer = res.data[i].jenispelanggan_code,
                   ]);
               setKubikasi((kubikasi)=>[
                 ...kubikasi,
@@ -103,6 +112,10 @@ const getTOKEN =  () => {
               setSR((sr)=>[
                 ...sr,
                 sr = res.data[i].lembar,
+              ]);
+              setColors((colors)=>[
+                ...colors,
+                colors = getRandomColor()
               ]);
             }
             console.log('kubi',kubikasi)
@@ -119,22 +132,7 @@ const getTOKEN =  () => {
             {
                 label:"",
                 data:kubikasi,
-                backgroundColor:[
-                  '#F00000',
-                  '#FAFF00',
-                  '#23EC1E',
-                  '#F00000',
-                  '#FAFF00',
-                  '#FAFF00',
-                  '#23EC1E',
-                  '#23EC1E',
-                  '#FAFF00',
-                  '#FAFF00',
-                  '#23EC1E',
-                  '#FAFF00',
-                  '#F00000',
-                  '#FAFF00',
-            ]
+                backgroundColor:colors
             }
         ]
     }
@@ -144,22 +142,7 @@ const getTOKEN =  () => {
           {
               label:"",
               data:sr,
-              backgroundColor:[
-                '#F00000',
-                '#FAFF00',
-                '#23EC1E',
-                '#F00000',
-                '#FAFF00',
-                '#FAFF00',
-                '#23EC1E',
-                '#23EC1E',
-                '#FAFF00',
-                '#FAFF00',
-                '#23EC1E',
-                '#FAFF00',
-                '#F00000',
-                '#FAFF00',
-          ]
+              backgroundColor:colors
           }
       ]
   }
@@ -200,9 +183,9 @@ const getTOKEN =  () => {
                           </div>
                           <div className="col-md-3">
                             <select class="form-control " data-live-search="true" value={form.areal} placeholder="Pilih Unit" onChange={e => setForm({...form, areal: e.target.value })}>
-                            {form.areal =='' && 
-                                <option value=''> --Pilih Unit-- </option>
-                              }
+                            {/* {form.areal =='' &&  */}
+                                <option value=''> --Pilih Semua Unit-- </option>
+                              {/* } */}
                                 {unit.map((item, index) => (  
                                     <option value={item.group_unit}>{item.namawilayah}</option>
                                   ))   }
@@ -287,7 +270,7 @@ const getTOKEN =  () => {
                                 {intable.map((intab, index) => (
                                   <tr>
                                       <td>{no++}</td>
-                                      <td>{intab.jenispelanggan}</td>
+                                      <td>{intab.jenispelanggan_code}</td>
                                       <td>{intab.lembar}</td>
                                       <td>{intab.kubikasi}</td>
                                       <td>{intab.avg}</td>

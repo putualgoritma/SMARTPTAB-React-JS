@@ -19,6 +19,16 @@ const ReadingResult = ()=>{
     var [intable, setIntable] = useState([]);
     var no=1;
 
+    var [colors,setColors]=useState([]);
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF'.split(''),
+            colors = '#';
+        for (var i = 0; i < 6; ++i) {
+            colors += letters[Math.round(Math.random() * 15)];
+        }
+        return colors;
+    }
     const [form, setForm] = useState({
         month :'--Pilih Periode--',
         year : null,
@@ -98,6 +108,10 @@ const ReadingResult = ()=>{
                     ...total,
                     total = res.data[i].total,
                   ]);
+                  setColors((colors)=>[
+                    ...colors,
+                    colors = getRandomColor()
+                ]);
                 setAllTotal(allTotal += parseInt((res.data[i].total)))
             }
 
@@ -115,24 +129,7 @@ const ReadingResult = ()=>{
               label: '',
               data: total,
               
-              backgroundColor: [
-                '#F00000',
-                '#FAFF00',
-                '#23EC1E',
-                '#F00000',
-                '#FAFF00',
-                '#FAFF00',
-                '#23EC1E',
-                '#23EC1E',
-                '#FAFF00',
-                '#FAFF00',
-                '#23EC1E',
-                '#FAFF00',
-                '#F00000',
-                '#FAFF00',
-                '#23EC1E',
-                '#F00000',
-              ]
+              backgroundColor: colors
             },
           ],
         };

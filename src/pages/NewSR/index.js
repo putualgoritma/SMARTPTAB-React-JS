@@ -20,6 +20,15 @@ const NewSR = ()=>{
 
   var [colors,setColors]=useState([]);
 
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split(''),
+        colors = '#';
+    for (var i = 0; i < 6; ++i) {
+        colors += letters[Math.round(Math.random() * 15)];
+    }
+    return colors;
+  }
+
   useEffect(()=>{
     let isAmounted = false
     if(!isAmounted) { 
@@ -43,11 +52,12 @@ const NewSR = ()=>{
                       ]);
                       setColors((colors)=>[
                         ...colors,
-                        colors = "#"+((1<<24)*Math.random()|0).toString(16)
+                        colors = getRandomColor()
                       ]);
                       setIntable(intable=result[0].data)
                       // console.log('hasil bulan',result[0].data[i].bulan)
                       setAllTotal(allTotal += parseInt((result[0].data[i].total)))
+                     
                     }
                     // console.log('nilai',allTotal)
                     setLoading(false) 
@@ -137,20 +147,7 @@ return data;
             label: '',
             data: total,
             
-            backgroundColor: [
-              '#F00000',
-              '#FAFF00',
-              '#23EC1E',
-              '#F00000',
-              '#FAFF00',
-              '#FAFF00',
-              '#23EC1E',
-              '#23EC1E',
-              '#FAFF00',
-              '#FAFF00',
-              '#23EC1E',
-              '#FAFF00',
-            ]
+            backgroundColor: colors,
           },
         ],
       };

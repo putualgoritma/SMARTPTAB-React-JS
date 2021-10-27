@@ -14,6 +14,17 @@ const [jumlahstatus, setJumlahstatus] = useState([]);
 const [namastatus, setNamastatus] = useState([]);
 const [startDate, setStartDate] = useState(null);
 
+
+var [colors,setColors]=useState([]);
+
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split(''),
+        colors = '#';
+    for (var i = 0; i < 6; ++i) {
+        colors += letters[Math.round(Math.random() * 15)];
+    }
+    return colors;
+  }
 var [intable, setIntable] = useState([]);
 var no=1;
 const [form, setForm] = useState({
@@ -85,6 +96,10 @@ const handleAction = () =>{
                     ...namastatus,
                     namastatus = res.data[i].namastatus,
                 ]);  
+                setColors((colors)=>[
+                    ...colors,
+                    colors = getRandomColor()
+                ]);
             }
             setIntable(intable=res.data)
           }).catch(e => console.log(e))
@@ -100,25 +115,7 @@ const data = {
         {
             label:'',
             data:jumlahstatus,
-            backgroundColor:[
-            '#F00000',
-            '#FAFF00',
-            '#23EC1E',
-            '#F00000',
-            '#23EC1E',
-            '#F00000',
-            '#FAFF00',
-            '#23EC1E',
-            '#23EC1E',
-            '#FAFF00',
-            '#FAFF00',
-            '#23EC1E',
-            '#FAFF00',
-            '#F00000',
-            '#FAFF00',
-            '#F00000',
-            '#23EC1E',
-        ]
+            backgroundColor:colors
         }
     ]
 }

@@ -13,6 +13,7 @@ const mapping = (data,token)=>Post(process.env.REACT_APP_API_MAPPING,false,data,
 const kubikasi =(data,token)=>Post(process.env.REACT_APP_API_KUBIKASI,false,data,token);
 const statussm = (data,token)=>Post(process.env.REACT_APP_STATUSSM,false,data,token);
 const reading = (data,token)=>Post(process.env.REACT_APP_READING,false,data,token);
+const audited = (data,token)=>Post(process.env.REACT_APP_AUDITED,false,data,token);
 
 const API = {
     login,
@@ -23,7 +24,8 @@ const API = {
     arealGroup,
     kubikasi,
     statussm,
-    reading
+    reading,
+    audited
 }
 
 export default API ;
