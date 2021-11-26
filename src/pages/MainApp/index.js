@@ -14,12 +14,20 @@ import {
     WaterSale,
     Personalia,
     Login,
-    MappingSBG
+    MappingSBG,
+    Request,
+    Complaint
 } from '../../pages';
 const MainApp = () =>{
     return(
         <Router>
             <Switch>
+                <Route path ="/Complaint">
+                    <Complaint/>
+                </Route>
+                <Route path ="/Request">
+                    <Request/>
+                </Route>
                 <Route path ="/MappingSBG">
                     <MappingSBG/>
                 </Route>

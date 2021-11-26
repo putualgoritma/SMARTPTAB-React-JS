@@ -186,7 +186,7 @@ return data;
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <div className="card-title-edit">Diangram Batang
+                                        <div className="card-title-edit">Diagram Batang
                                         Data Jumlah SR Baru Periode 2021</div>
                                     </div>
                                     <div className="card-body">

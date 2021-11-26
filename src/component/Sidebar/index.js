@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookOpen, faCheckDouble, faCreditCard, faHome, faLayerGroup, faMapMarkerAlt, faMoneyBill, faMoneyBillWaveAlt, faNewspaper, faTachometerAlt, faTags, faUsersCog, faWater } from '@fortawesome/free-solid-svg-icons'
+import { faBookOpen, faCheckDouble, faCreditCard, faFile, faHome, faLayerGroup, faMapMarkerAlt, faMoneyBill, faMoneyBillWaveAlt, faNewspaper, faTachometerAlt, faTags, faUsersCog, faWater } from '@fortawesome/free-solid-svg-icons'
 import {background,ImageSidebar} from '../../assets';
 const Sidebar = (props) => {
   return (
@@ -83,6 +83,22 @@ const Sidebar = (props) => {
                 </li>
               </li>
               <li>
+                <li className={props.active === 'Request' ? "nav-item active" : ''}>
+                  <a className="nav-link" href="./Request">
+                  <i className="nc-icon"><FontAwesomeIcon icon={faFile} style={{color:'#FFFFFFF', width:25, height:25}}/></i>
+                    <p>REKAP PERMINTAAN</p>
+                  </a>
+                </li>
+              </li>
+              <li>
+                <li className={props.active === 'Complaint' ? "nav-item active" : ''}>
+                  <a className="nav-link" href="./Complaint">
+                  <i className="nc-icon"><FontAwesomeIcon icon={faFile} style={{color:'#FFFFFFF', width:25, height:25}}/></i>
+                    <p>REKAP KELUHAN</p>
+                  </a>
+                </li>
+              </li>
+              {/* <li>
                 <li className={props.active === 'Finance Audited' ? "nav-item active" : ''}>
                   <a className="nav-link" href="./FinanceAudited">
                   <div style={{display:'flex', alignItems:'center'}}>
@@ -151,7 +167,7 @@ const Sidebar = (props) => {
                     </div>
                   </a>
                 </li>
-              </li>
+              </li> */}
             </ul>
           </div>
       </div>

@@ -98,8 +98,9 @@ const getTOKEN =  () => {
             setLoading(false)
             console.log('ress',res.data)
             setForm(form)
-            setKubikasi([])
-            setSR([])
+            setKubikasi([]);
+            setSR([]);
+            setCustomer([]);
             for (var i = 0; i < res.data.length; i++){
               setCustomer((customer)=>[
                     ...customer,
