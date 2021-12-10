@@ -44,7 +44,9 @@ const options = {
   var [intable, setIntable] = useState([]);
   var no=1;
  
-
+  function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  }
 
 
   useEffect( () => {
@@ -204,16 +206,16 @@ const data1 = {
                                           <tr>
                                               <td style={{fontSize:15, color:'black'}}>{no++}</td>
                                               <td style={{fontSize:15, color:'black'}}>{intab.namawilayah}</td>
-                                              <td style={{fontSize:15, color:'black'}}>{intab.totalaktif}</td>
-                                              <td style={{fontSize:15, color:'black'}}>{intab.totalpasif}</td>
-                                              <td style={{fontSize:15, color:'black'}}>{parseInt(intab.totalpasif)+parseInt(intab.totalaktif)}</td>
+                                              <td style={{fontSize:15, color:'black'}}>{formatNumber(intab.totalaktif)}</td>
+                                              <td style={{fontSize:15, color:'black'}}>{formatNumber(intab.totalpasif)}</td>
+                                              <td style={{fontSize:15, color:'black'}}>{formatNumber(parseInt(intab.totalpasif)+parseInt(intab.totalaktif))}</td>
                                           </tr>
                                           ))   }
                                           <tr>
                                               <td colspan="2">TOTAL</td>
-                                              <td>{totalA}</td>
-                                              <td>{totalP}</td>
-                                              <td>{totalA+totalP}</td>
+                                              <td>{formatNumber(totalA)}</td>
+                                              <td>{formatNumber(totalP)}</td>
+                                              <td>{formatNumber(totalA+totalP)}</td>
                                           </tr>
                                       </table>
                                   </div>  

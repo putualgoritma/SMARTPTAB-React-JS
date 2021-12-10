@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBookOpen, faCheckDouble, faCreditCard, faHome, faLayerGroup, faMapMarkerAlt, faMoneyBill, faMoneyBillWaveAlt, faNewspaper, faTachometerAlt, faTags, faUsersCog, faWater } from '@fortawesome/free-solid-svg-icons'
+import { faBookOpen, faCheckDouble, faCreditCard, faFile, faHome, faLayerGroup, faMapMarkerAlt, faMoneyBill, faMoneyBillWaveAlt, faNewspaper, faTachometerAlt, faTags, faUsersCog, faWater } from '@fortawesome/free-solid-svg-icons'
 import {background} from '../../assets';
 const Sidebar = (props) => {
   return (
@@ -138,6 +138,38 @@ const Sidebar = (props) => {
                   </li>
                 </li>
               </div>
+              <div style={{paddingTop:10}}>
+                <li className="box">
+                  <li className={props.active === 'Request' ? "nav-item active" : ''}>
+                    <a className="nav-link" href="./Request">
+                      <div className="mid">
+                        <div>
+                          <i className="nc-icon"><FontAwesomeIcon icon={faFile} style={{color:'#FFFFFF', width:15, height:15}}/></i>
+                        </div>
+                        <div className="text-sidebar">
+                        REKAP PERMINTAAN
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </li>
+              </div>
+              <div style={{paddingTop:10}}>
+                <li className="box">
+                  <li className={props.active === 'Complaint' ? "nav-item active" : ''}>
+                    <a className="nav-link" href="./Complaint">
+                      <div className="mid">
+                        <div>
+                          <i className="nc-icon"><FontAwesomeIcon icon={faBookOpen} style={{color:'#FFFFFF', width:15, height:15}}/></i>
+                        </div>
+                        <div className="text-sidebar">
+                        REKAP KELUHAN
+                        </div>
+                      </div>
+                    </a>
+                  </li>
+                </li>
+              </div>
             <div style={{paddingTop:10}}>
               <li className="box">
                 <li className={props.active === 'Finance Audited' ? "nav-item active" : ''}>
@@ -154,7 +186,7 @@ const Sidebar = (props) => {
                 </li>
               </li>
             </div>
-            <div style={{paddingTop:10}}>
+            {/* <div style={{paddingTop:10}}>
               <li className="box">
                 <li className={props.active === 'Monthly Finance' ? "nav-item active" : ''}>
                   <a className="nav-link" href="./MonthlyFinance">
@@ -217,7 +249,7 @@ const Sidebar = (props) => {
                   </a>
                 </li>
               </li>
-              </div>
+              </div> */}
             </ul>
         </div>
       </div>

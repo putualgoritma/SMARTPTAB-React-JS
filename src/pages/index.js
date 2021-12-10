@@ -13,7 +13,8 @@ import WaterSale from './WaterSale'
 import Personalia from './Personalia'
 import Login from './Login'
 import MappingSBG from './MappingSBG'
-
+import Request from'./Request'
+import Complaint from'./Complaint'
 export {
     MainApp,
     Dashboard,
@@ -29,5 +30,7 @@ export {
     WaterSale,
     Personalia,
     Login,
-    MappingSBG
+    MappingSBG,
+    Request,
+    Complaint
 }
