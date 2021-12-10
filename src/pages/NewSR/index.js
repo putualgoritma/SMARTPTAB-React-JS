@@ -29,6 +29,11 @@ const NewSR = ()=>{
     return colors;
   }
 
+  function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  }
+
+  
   useEffect(()=>{
     let isAmounted = false
     if(!isAmounted) { 
@@ -216,12 +221,12 @@ return data;
                                           <tr>
                                               <td style={{fontSize:15, color:'black'}}>{no++}</td>
                                               <td style={{fontSize:15, color:'black'}}>{intab.bulan}</td>
-                                              <td style={{fontSize:15, color:'black'}}>{intab.total}</td>
+                                              <td style={{fontSize:15, color:'black'}}>{formatNumber(intab.total)}</td>
                                           </tr>
                                           ))   }
                                            <tr>
                                               <td colspan="2">TOTAL</td>
-                                              <td>{allTotal}</td>
+                                              <td>{formatNumber(allTotal)}</td>
                                           </tr>
                                       </table>
                                   </div>  

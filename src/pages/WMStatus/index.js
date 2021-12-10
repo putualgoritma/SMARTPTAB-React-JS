@@ -53,6 +53,11 @@ const getTOKEN =  () => {
     
 }
 
+function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  }
+
+
 useEffect(async()=>{
     let token = await getTOKEN();
     if(token == null){   alert('mohon login terlebih dahulu')
@@ -205,7 +210,7 @@ const options = {
                                         <tr>
                                             <td>{no++}</td>
                                             <td>{intab.namastatus}</td>
-                                            <td>{intab.jumlahstatus}</td>
+                                            <td>{formatNumber(intab.jumlahstatus)}</td>
                                         </tr>
                                         ))}  
                                         </table>

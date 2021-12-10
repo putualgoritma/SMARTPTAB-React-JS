@@ -98,7 +98,7 @@ const Sidebar = (props) => {
                   </a>
                 </li>
               </li>
-              {/* <li>
+              <li>
                 <li className={props.active === 'Finance Audited' ? "nav-item active" : ''}>
                   <a className="nav-link" href="./FinanceAudited">
                   <div style={{display:'flex', alignItems:'center'}}>
@@ -112,7 +112,7 @@ const Sidebar = (props) => {
                   </a>
                 </li>
               </li>
-              <li>
+              {/* <li>
                 <li className={props.active === 'Monthly Finance' ? "nav-item active" : ''}>
                   <a className="nav-link" href="./MonthlyFinance">
                     <div style={{display:'flex', alignItems:'center'}}>

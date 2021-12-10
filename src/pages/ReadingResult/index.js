@@ -49,7 +49,9 @@ const ReadingResult = ()=>{
           setStartDate((date))
           setForm({...form, month: month, year:year },date)
         }
-  
+    function formatNumber(num) {
+        return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+        }
     useEffect(async()=>{
         let token = await getTOKEN();
         if(token == null){   alert('mohon login terlebih dahulu')
@@ -93,12 +95,13 @@ const ReadingResult = ()=>{
         }else{ 
             setLoading(true)
             API.reading(form,TOKEN).then((res) => {
-                console.log('nilai',res)
+                console.log('nilai',res.data)
             setLoading(false)
             intable=[]
             setTanggal([])
             setTotal([])
             setIntable(intable=res.data)
+            setAllTotal(allTotal = 0)
             for (var i = 0; i < res.data.length; i++){
                 setTanggal((tanggal)=>[
                     ...tanggal,
@@ -112,7 +115,9 @@ const ReadingResult = ()=>{
                     ...colors,
                     colors = getRandomColor()
                 ]);
-                setAllTotal(allTotal += parseInt((res.data[i].total)))
+              
+                setAllTotal( allTotal += parseInt((res.data[i].total)))
+                console.log(allTotal)
             }
 
             }).catch(e => console.log('errorni',e))
@@ -242,7 +247,7 @@ const ReadingResult = ()=>{
                                             ))   }
                                             <tr>
                                                 <td colspan="2">TOTAL</td>
-                                                <td>{allTotal}</td>
+                                                <td>{formatNumber(allTotal)}</td>
                                             </tr>
                                         </table>
                                     </div>  

@@ -170,7 +170,7 @@ const Sidebar = (props) => {
                   </li>
                 </li>
               </div>
-            {/* <div style={{paddingTop:10}}>
+            <div style={{paddingTop:10}}>
               <li className="box">
                 <li className={props.active === 'Finance Audited' ? "nav-item active" : ''}>
                   <a className="nav-link" href="./FinanceAudited">
@@ -185,7 +185,7 @@ const Sidebar = (props) => {
                   </a>
                 </li>
               </li>
-            </div> */}
+            </div>
             {/* <div style={{paddingTop:10}}>
               <li className="box">
                 <li className={props.active === 'Monthly Finance' ? "nav-item active" : ''}>

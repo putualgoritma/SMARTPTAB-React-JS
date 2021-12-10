@@ -50,6 +50,10 @@ const CustomerCubic = () =>{
     setForm({...form, month: month, year:year },date)
   }
 
+  function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  }
+
   useEffect(async()=>{
     let token = await getTOKEN();
     if(token == null){   alert('mohon login terlebih dahulu')
@@ -272,9 +276,9 @@ const getTOKEN =  () => {
                                   <tr>
                                       <td>{no++}</td>
                                       <td>{intab.jenispelanggan_code}</td>
-                                      <td>{intab.lembar}</td>
-                                      <td>{intab.kubikasi}</td>
-                                      <td>{intab.avg}</td>
+                                      <td>{formatNumber(intab.lembar)}</td>
+                                      <td>{formatNumber(intab.kubikasi)}</td>
+                                      <td>{formatNumber(Math.round(intab.avg))}</td>
                                   </tr>
                                 ))}  
                                   </table>

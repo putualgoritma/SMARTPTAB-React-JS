@@ -152,7 +152,7 @@ const FinanceAudited = () =>{
                             </div>    
                         </div> */}
              
-                        <Title
+                        {/* <Title
                           title="DATA LAPORAN KINERJA AUDITED"
                           paddingTop={40}
                         />
@@ -171,7 +171,7 @@ const FinanceAudited = () =>{
                             <div className="col-md-10" style={{backgroundColor:'white', height:300}}>
                                 
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                     <Footer/>
                 </div>
