@@ -191,8 +191,10 @@ return data;
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header">
-                                        <div className="card-title-edit">Diagram Batang
-                                        Data Jumlah SR Baru Periode 2021</div>
+
+                                        <div className="card-title-edit">Diangram Batang
+                                        Data Jumlah SR Baru Periode {new Date().getFullYear()}</div>
+
                                     </div>
                                     <div className="card-body">
                                         <div className='header'>
