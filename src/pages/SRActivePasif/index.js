@@ -156,7 +156,7 @@ const data1 = {
                                 <div className="card ">
                                     <div className="card-header ">
                                         <div className="card-title-edit">Diagram Lingkaran 
-                                            SR Aktif & Pasif Semua Unit Periode 2021</div>
+                                            SR Aktif & Pasif Semua Unit Periode  {new Date().getFullYear()}</div>
                                     </div>
                                     <div className="card-body ">
                                     <div className='header'>
@@ -173,7 +173,7 @@ const data1 = {
                                 <div className="card ">
                                     <div className="card-header ">
                                         <div className="card-title-edit">Diagram Batang
-                                            SR Aktif & Pasif Semua Unit Periode 2021</div>
+                                            SR Aktif & Pasif Semua Unit Periode  {new Date().getFullYear()}</div>
                                     </div>
                                     <div className="card-body ">
                                         <Bar data={data} options={options} />
@@ -188,7 +188,7 @@ const data1 = {
                         <div class="col-md-12">
                             <div class="card strpied-tabled-with-hover">
                                 <div class="card-header ">
-                                    <h4 class="card-title">Tabel SR Aktif & Pasif 2021</h4>
+                                    <h4 class="card-title">Tabel SR Aktif & Pasif  {new Date().getFullYear()}</h4>
                                 </div>
                                 <div class="card-body table-full-width table-responsive">
                                   <div className="col-lg-12">
