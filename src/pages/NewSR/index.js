@@ -20,6 +20,20 @@ const NewSR = ()=>{
 
   var [colors,setColors]=useState([]);
 
+  function getRandomColor() {
+    var letters = '0123456789ABCDEF'.split(''),
+        colors = '#';
+    for (var i = 0; i < 6; ++i) {
+        colors += letters[Math.round(Math.random() * 15)];
+    }
+    return colors;
+  }
+
+  function formatNumber(num) {
+    return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+  }
+
+  
   useEffect(()=>{
     let isAmounted = false
     if(!isAmounted) { 
@@ -43,11 +57,12 @@ const NewSR = ()=>{
                       ]);
                       setColors((colors)=>[
                         ...colors,
-                        colors = "#"+((1<<24)*Math.random()|0).toString(16)
+                        colors = getRandomColor()
                       ]);
                       setIntable(intable=result[0].data)
                       // console.log('hasil bulan',result[0].data[i].bulan)
                       setAllTotal(allTotal += parseInt((result[0].data[i].total)))
+                     
                     }
                     // console.log('nilai',allTotal)
                     setLoading(false) 
@@ -137,20 +152,7 @@ return data;
             label: '',
             data: total,
             
-            backgroundColor: [
-              '#F00000',
-              '#FAFF00',
-              '#23EC1E',
-              '#F00000',
-              '#FAFF00',
-              '#FAFF00',
-              '#23EC1E',
-              '#23EC1E',
-              '#FAFF00',
-              '#FAFF00',
-              '#23EC1E',
-              '#FAFF00',
-            ]
+            backgroundColor: colors,
           },
         ],
       };
@@ -189,8 +191,10 @@ return data;
                             <div className="col-md-12">
                                 <div className="card">
                                     <div className="card-header">
+
                                         <div className="card-title-edit">Diangram Batang
                                         Data Jumlah SR Baru Periode {new Date().getFullYear()}</div>
+
                                     </div>
                                     <div className="card-body">
                                         <div className='header'>
@@ -219,12 +223,12 @@ return data;
                                           <tr>
                                               <td style={{fontSize:15, color:'black'}}>{no++}</td>
                                               <td style={{fontSize:15, color:'black'}}>{intab.bulan}</td>
-                                              <td style={{fontSize:15, color:'black'}}>{intab.total}</td>
+                                              <td style={{fontSize:15, color:'black'}}>{formatNumber(intab.total)}</td>
                                           </tr>
                                           ))   }
                                            <tr>
                                               <td colspan="2">TOTAL</td>
-                                              <td>{allTotal}</td>
+                                              <td>{formatNumber(allTotal)}</td>
                                           </tr>
                                       </table>
                                   </div>  
