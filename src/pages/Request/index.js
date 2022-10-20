@@ -82,6 +82,7 @@ const Request = () =>{
         setLoading(true)
         API.request(form,TOKEN).then((res) => {
             setIntable(res.data)
+  
             setLoading(false)
             console.log('new',res.data[2].created_at);
             console.log(form)
@@ -261,7 +262,7 @@ const Request = () =>{
                                       <td>0</td>
                                       <td>{new Date(intab.updated_at).getFullYear()+'-'+(new Date(intab.updated_at).getMonth() + 1)+'-'+new Date(intab.updated_at).getDate()}</td>
                                       <td>{parseInt((new Date(intab.updated_at).getTime()-new Date(intab.created_at).getTime())/(1000 * 3600 * 24))}</td>
-                                      <td>{intab.action !=null ?intab.action[intab.action.length-1].memo : null}</td>
+                                      <td>{intab.action && intab.action.length > 0  ?intab.action[intab.action.length-1].memo : null}</td>
                                   </tr>
                                 ))} 
                                   </table>
