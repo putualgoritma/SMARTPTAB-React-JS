@@ -207,7 +207,7 @@ const Complaint = () =>{
                                       <td>{intab.spk}</td>
                                       <td>{new Date(intab.created_at).getFullYear()+'-'+(new Date(intab.created_at).getMonth() + 1)+'-'+new Date(intab.created_at).getDate()}</td>
                                       <td>Internal</td>
-                                      <td>{intab.action !=null ?intab.action[intab.action.length-1].description : null}</td>
+                                      <td>{intab.action !=null && intab.action.length > 0 ?intab.action[intab.action.length-1].description : null}</td>
                                   </tr>
                                 ))} 
                                   </table>
